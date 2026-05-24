@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_hms_patient_form" model="ir.ui.view">
+    <field name="name">hms.patient.form</field>
+    <field name="model">hms.patient</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+    <button name="action_undetermined" string="Undetermined" type="object"
+            invisible="state == 'undetermined'"/>
+    <button name="action_good" string="Good" type="object"
+            invisible="state == 'good'"/>
+    <button name="action_fair" string="Fair" type="object"
+            invisible="state == 'fair'"/>
+    <button name="action_serious" string="Serious" type="object"
+            invisible="state == 'serious'"/>
+    <field name="state" widget="statusbar"
+           statusbar_visible="undetermined,good,fair,serious"/>
+</header>
+        <sheet>
+          <field name="image" widget="image" class="oe_avatar"/>
+          <group>
+            <group>
+              <field name="first_name"/>
+              <field name="last_name"/>
+              <field name="email"/>
+              <field name="birth_date"/>
+              <field name="age"/>
+              <field name="blood_type"/>
+              <field name="pcr"/>
+              <field name="cr_ratio"
+                     required="[('pcr', '=', True)]"/>
+            </group>
+            <group>
+              <field name="department_id"
+                     domain="[('is_opened', '=', True)]"/>
+              <field name="department_capacity"/>
+              <field name="doctor_ids"
+                     widget="many2many_tags"
+                     readonly="[('department_id', '=', False)]"/>
+              <field name="address"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="History"
+                  invisible="age &lt; 50">
+              <field name="history"/>
+            </page>
+            <page string="Log History">
+              <field name="log_ids">
+                <list editable="bottom">
+                  <field name="created_by"/>
+                  <field name="date"/>
+                  <field name="description"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_hms_patient_list" model="ir.ui.view">
+    <field name="name">hms.patient.list</field>
+    <field name="model">hms.patient</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="first_name"/>
+        <field name="last_name"/>
+        <field name="birth_date"/>
+        <field name="blood_type"/>
+        <field name="pcr"/>
+        <field name="department_id"/>
+        <field name="state"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_hms_patient" model="ir.actions.act_window">
+    <field name="name">Patients</field>
+    <field name="res_model">hms.patient</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+   <menuitem id="menu_hms_root"
+            name="HMS"
+            sequence="10"/>
+
+  <menuitem id="menu_hms_patients"
+            name="Patients"
+            parent="menu_hms_root"
+            action="action_hms_patient"
+            sequence="1"/>
+
+</odoo>
