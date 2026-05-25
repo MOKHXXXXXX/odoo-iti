@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- إضافة related_patient_id في Sales & Purchase tab -->
+  <record id="view_partner_hms_inherit" model="ir.ui.view">
+    <field name="name">res.partner.form.hms.inherit</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//page[@name='sales_purchases']//group[@name='misc']" position="inside">
+        <field name="related_patient_id"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- إظهار website في list view --><!-- إظهار website في list view -->
+  <record id="view_partner_hms_list_inherit" model="ir.ui.view">
+    <field name="name">res.partner.list.hms.inherit</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//list/field[@name='phone']" position="after">
+        <field name="website"/>
+      </xpath>
+    </field>
+  </record>
+  <!-- Tax ID mandatory -->
+  <record id="view_partner_hms_taxid_inherit" model="ir.ui.view">
+    <field name="name">res.partner.form.hms.taxid.inherit</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='vat']" position="attributes">
+        <attribute name="required">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

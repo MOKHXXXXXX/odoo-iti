@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="hms_patient_rule_user" model="ir.rule">
+        <field name="name">HMS Patient: User sees own records</field>
+        <field name="model_id" ref="model_hms_patient"/>
+        <field name="groups" eval="[(4, ref('group_hms_user'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hms_patient_rule_manager" model="ir.rule">
+        <field name="name">HMS Patient: Manager sees all records</field>
+        <field name="model_id" ref="model_hms_patient"/>
+        <field name="groups" eval="[(4, ref('group_hms_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>
